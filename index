@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>3D_Scatter_Plot</title>
+
+</head>
+
+<body>
+
+<iframe width="100%" height="300" src="//jsfiddle.net/felix5/evg29ktb/embedded/" allowfullscreen="allowfullscreen" allowpaymentrequest frameborder="0"></iframe>
+
+<script async src="//jsfiddle.net/felix5/evg29ktb/embed/"></script>
+
+</body>
+</html>
