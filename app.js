@@ -39,6 +39,7 @@ function processData(data) {
             });
         }
     }
+    console.log(dataArray);  // デバッグ用にデータを確認
     createChart(dataArray);
 }
 
