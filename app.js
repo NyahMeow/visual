@@ -18,6 +18,7 @@
 // });
 
 document.addEventListener('DOMContentLoaded', (event) => {
+    console.log("DOM fully loaded and parsed");
     document.getElementById('analyzeButton').addEventListener('click', processFile);
 });
 
@@ -55,7 +56,7 @@ function processData(data) {
     var dataArray = [];
     for (var i = 1; i < data.length; i++) { // ヘッダー行をスキップ
         var row = data[i];
-        if (row.length >= 4) { // 少なくとも4列があることを確認
+        if (Array.isArray(row) && row.length >= 4) { // 少なくとも4列があることを確認
             var x = parseFloat(row[0]);
             var y = parseFloat(row[1]);
             var z = parseFloat(row[2]);
@@ -201,4 +202,3 @@ var defaultData = [
 ];
 
 processData(defaultData);
-
