@@ -17,10 +17,18 @@
 //  }
 // });
 
-// ファイルの読み込みとパーシング
+document.addEventListener('DOMContentLoaded', (event) => {
+    document.getElementById('analyzeButton').addEventListener('click', processFile);
+});
+
 function processFile() {
     const fileInput = document.getElementById('fileInput');
     const file = fileInput.files[0];
+    if (!file) {
+        alert("Please select a file.");
+        return;
+    }
+
     const reader = new FileReader();
 
     reader.onload = function(e) {
@@ -31,7 +39,7 @@ function processFile() {
         const json = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
 
         // 読み込まれたデータをコンソールに出力
-        console.log(json);
+        console.log("Loaded data:", json);
 
         processData(json);
     };
@@ -42,9 +50,6 @@ function processFile() {
 
     reader.readAsBinaryString(file);
 }
-
-// イベントリスナーの設定
-document.getElementById('analyzeButton').addEventListener('click', processFile);
 
 function processData(data) {
     var dataArray = [];
@@ -196,3 +201,4 @@ var defaultData = [
 ];
 
 processData(defaultData);
+
