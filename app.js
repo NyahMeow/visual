@@ -119,7 +119,7 @@ function createChart(dataArray) {
 var defaultData = [
     [19.6, 11.0, 4.73, 'United States of America'],
     [21.07, 9.06, 4.48, "People's Republic of China"],
-    // ... 必要に応じて追加のデフォルトデータを追加
+    // 必要に応じて追加のデフォルトデータを追加
 ];
 
 processData(defaultData);
