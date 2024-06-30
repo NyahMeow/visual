@@ -1,7 +1,3 @@
-// Include the xlsx library
-// <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
-
-// Function to handle file upload and read Excel file
 document.getElementById('uploadBtn').addEventListener('click', function () {
     var fileUpload = document.getElementById('fileUpload').files[0];
     if (fileUpload) {
@@ -110,7 +106,7 @@ function createChart(dataArray) {
         }],
         tooltip: {
             headerFormat: '',
-            pointFormat: '<b>{point.name}</b><br>Population: {point.y}<br>GDP per capita: {point.x}<br>Medals: {point.z}'
+            pointFormat: '<b>{point.name}</b><br>GDP per capita: {point.x}<br>Population: {point.y}<br>Medals: {point.z}'
         }
     });
 }
@@ -123,3 +119,4 @@ var defaultData = [
 ];
 
 processData(defaultData);
+
