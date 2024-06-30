@@ -1,21 +1,50 @@
-document.getElementById('uploadBtn').addEventListener('click', function () {
-    var fileUpload = document.getElementById('fileUpload').files[0];
-    if (fileUpload) {
-        var reader = new FileReader();
-        reader.onload = function (e) {
-            var data = new Uint8Array(e.target.result);
-            var workbook = XLSX.read(data, { type: 'array' });
-            var sheetName = workbook.SheetNames[0];
-            var worksheet = workbook.Sheets[sheetName];
-            var json = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-            console.log(json);  // デバッグ用にデータを確認
-            processData(json);
-        };
-        reader.readAsArrayBuffer(fileUpload);
-    } else {
-        alert("Please select a file.");
-    }
-});
+// document.getElementById('uploadBtn').addEventListener('click', function () {
+//     var fileUpload = document.getElementById('fileUpload').files[0];
+//     if (fileUpload) {
+//         var reader = new FileReader();
+//         reader.onload = function (e) {
+//             var data = new Uint8Array(e.target.result);
+//             var workbook = XLSX.read(data, { type: 'array' });
+//             var sheetName = workbook.SheetNames[0];
+//             var worksheet = workbook.Sheets[sheetName];
+//             var json = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+//             console.log(json);  // デバッグ用にデータを確認
+//             processData(json);
+//         };
+//         reader.readAsArrayBuffer(fileUpload);
+//     } else {
+//         alert("Please select a file.");
+//  }
+// });
+
+// ファイルの読み込みとパーシング
+function processFile() {
+    const fileInput = document.getElementById('fileInput');
+    const file = fileInput.files[0];
+    const reader = new FileReader();
+
+    reader.onload = function(e) {
+        const data = e.target.result;
+        const workbook = XLSX.read(data, { type: 'binary' });
+        const firstSheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[firstSheetName];
+        const json = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+
+        // 読み込まれたデータをコンソールに出力
+        console.log(json);
+
+        processData(json);
+    };
+
+    reader.onerror = function(e) {
+        console.error("ファイルの読み込み中にエラーが発生しました:", e);
+    };
+
+    reader.readAsBinaryString(file);
+}
+
+// イベントリスナーの設定
+document.getElementById('analyzeButton').addEventListener('click', processFile);
 
 function processData(data) {
     var dataArray = [];
@@ -110,55 +139,51 @@ function createChart(dataArray) {
         }
     });
     console.log(chart); // チャートオブジェクトの確認
-}
 
-// Some magic here for the interactive feattures
-//Add mouse and touch events for rotation
-(function (H) {
-    function dragStart(eStart) {
-        eStart = chart.pointer.normalize(eStart);
+    // 3D散布図のマウスイベントを追加
+    (function (H) {
+        function dragStart(eStart) {
+            eStart = chart.pointer.normalize(eStart);
 
-        var posX = eStart.chartX,
-            posY = eStart.chartY,
-            alpha = chart.options.chart.options3d.alpha,
-            beta = chart.options.chart.options3d.beta,
-            sensitivity = 5,  // lower is more sensitive
-            handlers = [];
+            var posX = eStart.chartX,
+                posY = eStart.chartY,
+                alpha = chart.options.chart.options3d.alpha,
+                beta = chart.options.chart.options3d.beta,
+                sensitivity = 5,  // lower is more sensitive
+                handlers = [];
 
-        function drag(e) {
-            // Get e.chartX and e.chartY
-            e = chart.pointer.normalize(e);
+            function drag(e) {
+                // Get e.chartX and e.chartY
+                e = chart.pointer.normalize(e);
 
-            chart.update({
-                chart: {
-                    options3d: {
-                        alpha: alpha + (e.chartY - posY) / sensitivity,
-                        beta: beta + (posX - e.chartX) / sensitivity
+                chart.update({
+                    chart: {
+                        options3d: {
+                            alpha: alpha + (e.chartY - posY) / sensitivity,
+                            beta: beta + (posX - e.chartX) / sensitivity
+                        }
                     }
-                }
-            }, undefined, undefined, false);
+                }, undefined, undefined, false);
+            }
+
+            function unbindAll() {
+                handlers.forEach(function (unbind) {
+                    if (unbind) {
+                        unbind();
+                    }
+                });
+                handlers.length = 0;
+            }
+
+            handlers.push(H.addEvent(document, 'mousemove', drag));
+            handlers.push(H.addEvent(document, 'touchmove', drag));
+            handlers.push(H.addEvent(document, 'mouseup', unbindAll));
+            handlers.push(H.addEvent(document, 'touchend', unbindAll));
         }
-
-        function unbindAll() {
-            handlers.forEach(function (unbind) {
-                if (unbind) {
-                    unbind();
-                }
-            });
-            handlers.length = 0;
-        }
-
-        handlers.push(H.addEvent(document, 'mousemove', drag));
-        handlers.push(H.addEvent(document, 'touchmove', drag));
-        handlers.push(H.addEvent(document, 'mouseup', unbindAll));
-        handlers.push(H.addEvent(document, 'touchend', unbindAll));
-    }
-    H.addEvent(chart.container, 'mousedown', dragStart);
-    H.addEvent(chart.container, 'touchstart', dragStart);
-    
-  
-}(Highcharts));
-
+        H.addEvent(chart.container, 'mousedown', dragStart);
+        H.addEvent(chart.container, 'touchstart', dragStart);
+    }(Highcharts));
+}
 
 // 初期チャートの設定とデフォルトデータ
 var defaultData = [
