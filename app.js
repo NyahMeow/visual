@@ -101,14 +101,14 @@ function createChart(dataArray) {
         },
         yAxis: {
             min: 0,
-            max: 30,
+            max: 23,
             title: {
                 text: 'Y-Axis'
             }
         },
         xAxis: {
             min: 5,  // 手動でx軸の範囲を設定
-            max: 15, // 手動でx軸の範囲を設定
+            max: 13, // 手動でx軸の範囲を設定
             gridLineWidth: 1,
             title: {
                 text: 'X-Axis'
@@ -116,7 +116,7 @@ function createChart(dataArray) {
         },
         zAxis: {
             min: 0,
-            max: 30,
+            max: 5,
             showFirstLabel: false,
             title: {
                 text: 'Z-Axis'
