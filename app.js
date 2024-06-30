@@ -1,22 +1,3 @@
-// document.getElementById('uploadBtn').addEventListener('click', function () {
-//     var fileUpload = document.getElementById('fileUpload').files[0];
-//     if (fileUpload) {
-//         var reader = new FileReader();
-//         reader.onload = function (e) {
-//             var data = new Uint8Array(e.target.result);
-//             var workbook = XLSX.read(data, { type: 'array' });
-//             var sheetName = workbook.SheetNames[0];
-//             var worksheet = workbook.Sheets[sheetName];
-//             var json = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-//             console.log(json);  // デバッグ用にデータを確認
-//             processData(json);
-//         };
-//         reader.readAsArrayBuffer(fileUpload);
-//     } else {
-//         alert("Please select a file.");
-//  }
-// });
-
 document.addEventListener('DOMContentLoaded', (event) => {
     console.log("DOM fully loaded and parsed");
     document.getElementById('analyzeButton').addEventListener('click', processFile);
