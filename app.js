@@ -65,12 +65,13 @@ function processData(data) {
     createChart(dataArray, xMin, xMax);
 }
 
-function createChart(dataArray, xMin, xMax) {
+function createChart(dataArray) {
     console.log("Creating chart with data:", dataArray); // デバッグ用ログ
     var chart = Highcharts.chart('container', {
         chart: {
             renderTo: 'container',
             type: 'scatter3d',
+            margin: [80, 80, 80, 80], // マージンを調整
             options3d: {
                 enabled: true,
                 alpha: 10,
@@ -106,8 +107,8 @@ function createChart(dataArray, xMin, xMax) {
             }
         },
         xAxis: {
-            min: xMin, // x軸の最小値を設定
-            max: xMax, // x軸の最大値を設定
+            min: 5,  // 手動でx軸の範囲を設定
+            max: 15, // 手動でx軸の範囲を設定
             gridLineWidth: 1,
             title: {
                 text: 'X-Axis'
