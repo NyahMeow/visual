@@ -162,11 +162,11 @@ function createChart(dataArray) {
 
 // 初期チャートの設定とデフォルトデータ
 var defaultData = [
-    [19.6, 11.0, 4.73, 'United States of America'],
-    [21.07, 9.06, 4.48, "People's Republic of China"],
-    [18.66, 10.55, 4.06, 'Japan'],
-    [18.02, 10.58, 4.17, 'Great Britain'],
-    [18.8, 9.29, 4.26, 'ROC']
+    [5.6, 7.0, 4.73, 'United States of America'],
+    [8.07, 9.06, 4.48, "People's Republic of China"],
+    [9.66, 10.55, 4.06, 'Japan'],
+    [7.02, 8.58, 5.17, 'Great Britain'],
+    [10.1, 9.29, 3.26, 'ROC']
     // 必要に応じて追加のデフォルトデータを追加
 ];
 
