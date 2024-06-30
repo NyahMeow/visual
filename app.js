@@ -101,7 +101,7 @@ function createChart(dataArray, xMin, xMax) {
         },
         yAxis: {
             min: 0,
-            max: 30,
+            max: 12,
             title: {
                 text: 'Y-Axis'
             }
@@ -116,7 +116,7 @@ function createChart(dataArray, xMin, xMax) {
         },
         zAxis: {
             min: 0,
-            max: 30,
+            max: 6,
             showFirstLabel: false,
             title: {
                 text: 'Z-Axis'
