@@ -35,6 +35,9 @@ function processFile() {
 
 function processData(data) {
     var dataArray = [];
+    var xMin = Number.POSITIVE_INFINITY;
+    var xMax = Number.NEGATIVE_INFINITY;
+
     for (var i = 1; i < data.length; i++) { // ヘッダー行をスキップ
         var row = data[i];
         if (Array.isArray(row) && row.length >= 4) { // 少なくとも4列があることを確認
@@ -43,6 +46,7 @@ function processData(data) {
             var z = parseFloat(row[2]);
             var country = row[3];
             var color = 'rgba(0, 105, 255, ' + (1 - (z / 5)) + ')'; // zの範囲に応じた色の設定
+
             dataArray.push({
                 'x': x,
                 'y': y,
@@ -50,13 +54,18 @@ function processData(data) {
                 'name': country,
                 'color': color
             });
+
+            // xの最小値と最大値を更新
+            if (x < xMin) xMin = x;
+            if (x > xMax) xMax = x;
         }
     }
+
     console.log(dataArray);  // デバッグ用にデータを確認
-    createChart(dataArray);
+    createChart(dataArray, xMin, xMax);
 }
 
-function createChart(dataArray) {
+function createChart(dataArray, xMin, xMax) {
     console.log("Creating chart with data:", dataArray); // デバッグ用ログ
     var chart = Highcharts.chart('container', {
         chart: {
@@ -97,8 +106,8 @@ function createChart(dataArray) {
             }
         },
         xAxis: {
-            min: 0,
-            max: 30,
+            min: xMin, // x軸の最小値を設定
+            max: xMax, // x軸の最大値を設定
             gridLineWidth: 1,
             title: {
                 text: 'X-Axis'
