@@ -26,12 +26,12 @@ function processData(data) {
             var y = parseFloat(row[1]);
             var z = parseFloat(row[2]);
             var country = row[3];
-            var color = 'rgba(0, 105, 255, ' + (1 - ((1 - ((0 - 1) / (0 - 5)) * z))) + ')';
+            var color = 'rgba(0, 105, 255, ' + (1 - (z / 5)) + ')'; // zの範囲に応じた色の設定
             dataArray.push({
                 'x': x,
                 'y': y,
                 'z': z,
-                'name': country, // 'Country' ではなく 'name' に変更
+                'name': country,
                 'color': color
             });
         }
@@ -42,7 +42,7 @@ function processData(data) {
 
 function createChart(dataArray) {
     console.log("Creating chart with data:", dataArray); // デバッグ用ログ
-    Highcharts.chart('container', {
+    var chart = Highcharts.chart('container', {
         chart: {
             renderTo: 'container',
             type: 'scatter3d',
@@ -75,14 +75,14 @@ function createChart(dataArray) {
         },
         yAxis: {
             min: 0,
-            max: 10,
+            max: 30,
             title: {
                 text: 'Y-Axis'
             }
         },
         xAxis: {
             min: 0,
-            max: 10,
+            max: 30,
             gridLineWidth: 1,
             title: {
                 text: 'X-Axis'
@@ -90,7 +90,7 @@ function createChart(dataArray) {
         },
         zAxis: {
             min: 0,
-            max: 10,
+            max: 30,
             showFirstLabel: false,
             title: {
                 text: 'Z-Axis'
@@ -109,14 +109,17 @@ function createChart(dataArray) {
             pointFormat: '<b>{point.name}</b><br>GDP per capita: {point.x}<br>Population: {point.y}<br>Medals: {point.z}'
         }
     });
+    console.log(chart); // チャートオブジェクトの確認
 }
 
 // 初期チャートの設定とデフォルトデータ
 var defaultData = [
     [19.6, 11.0, 4.73, 'United States of America'],
     [21.07, 9.06, 4.48, "People's Republic of China"],
+    [18.66, 10.55, 4.06, 'Japan'],
+    [18.02, 10.58, 4.17, 'Great Britain'],
+    [18.8, 9.29, 4.26, 'ROC']
     // 必要に応じて追加のデフォルトデータを追加
 ];
 
 processData(defaultData);
-
