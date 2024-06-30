@@ -12,6 +12,7 @@ document.getElementById('uploadBtn').addEventListener('click', function () {
             var sheetName = workbook.SheetNames[0];
             var worksheet = workbook.Sheets[sheetName];
             var json = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+            console.log(json);  // デバッグ用にデータを確認
             processData(json);
         };
         reader.readAsArrayBuffer(fileUpload);
@@ -22,9 +23,9 @@ document.getElementById('uploadBtn').addEventListener('click', function () {
 
 function processData(data) {
     var dataArray = [];
-    for (var i = 1; i < data.length; i++) { // Start from 1 to skip header row
+    for (var i = 1; i < data.length; i++) { // ヘッダー行をスキップ
         var row = data[i];
-        if (row.length >= 4) { // Ensure there are at least 4 columns
+        if (row.length >= 4) { // 少なくとも4列があることを確認
             var x = parseFloat(row[0]);
             var y = parseFloat(row[1]);
             var z = parseFloat(row[2]);
@@ -108,11 +109,11 @@ function createChart(dataArray) {
     });
 }
 
-// Initial chart setup with default data
+// 初期チャートの設定とデフォルトデータ
 var defaultData = [
     [19.6, 11.0, 4.73, 'United States of America'],
     [21.07, 9.06, 4.48, "People's Republic of China"],
-    // ... Add more default data if necessary
+    // ... 必要に応じて追加のデフォルトデータを追加
 ];
 
 processData(defaultData);
