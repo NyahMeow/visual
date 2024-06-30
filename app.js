@@ -35,7 +35,7 @@ function processData(data) {
                 'x': x,
                 'y': y,
                 'z': z,
-                'Country': country,
+                'name': country, // 'Country' ではなく 'name' に変更
                 'color': color
             });
         }
@@ -45,8 +45,10 @@ function processData(data) {
 }
 
 function createChart(dataArray) {
+    console.log("Creating chart with data:", dataArray); // デバッグ用ログ
     Highcharts.chart('container', {
         chart: {
+            renderTo: 'container',
             type: 'scatter3d',
             options3d: {
                 enabled: true,
@@ -105,7 +107,11 @@ function createChart(dataArray) {
             name: 'Data',
             colorByPoint: true,
             data: dataArray
-        }]
+        }],
+        tooltip: {
+            headerFormat: '',
+            pointFormat: '<b>{point.name}</b><br>Population: {point.y}<br>GDP per capita: {point.x}<br>Medals: {point.z}'
+        }
     });
 }
 
