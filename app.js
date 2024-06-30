@@ -115,4 +115,81 @@ function createChart(dataArray, xMin, xMax) {
             }
         },
         zAxis: {
-        
+            min: 0,
+            max: 30,
+            showFirstLabel: false,
+            title: {
+                text: 'Z-Axis'
+            }
+        },
+        legend: {
+            enabled: false
+        },
+        series: [{
+            name: 'Data',
+            colorByPoint: true,
+            data: dataArray
+        }],
+        tooltip: {
+            headerFormat: '',
+            pointFormat: '<b>{point.name}</b><br>GDP per capita: {point.x}<br>Population: {point.y}<br>Medals: {point.z}'
+        }
+    });
+    console.log(chart); // チャートオブジェクトの確認
+
+    // 3D散布図のマウスイベントを追加
+    (function (H) {
+        function dragStart(eStart) {
+            eStart = chart.pointer.normalize(eStart);
+
+            var posX = eStart.chartX,
+                posY = eStart.chartY,
+                alpha = chart.options.chart.options3d.alpha,
+                beta = chart.options.chart.options3d.beta,
+                sensitivity = 5,  // lower is more sensitive
+                handlers = [];
+
+            function drag(e) {
+                // Get e.chartX and e.chartY
+                e = chart.pointer.normalize(e);
+
+                chart.update({
+                    chart: {
+                        options3d: {
+                            alpha: alpha + (e.chartY - posY) / sensitivity,
+                            beta: beta + (posX - e.chartX) / sensitivity
+                        }
+                    }
+                }, undefined, undefined, false);
+            }
+
+            function unbindAll() {
+                handlers.forEach(function (unbind) {
+                    if (unbind) {
+                        unbind();
+                    }
+                });
+                handlers.length = 0;
+            }
+
+            handlers.push(H.addEvent(document, 'mousemove', drag));
+            handlers.push(H.addEvent(document, 'touchmove', drag));
+            handlers.push(H.addEvent(document, 'mouseup', unbindAll));
+            handlers.push(H.addEvent(document, 'touchend', unbindAll));
+        }
+        H.addEvent(chart.container, 'mousedown', dragStart);
+        H.addEvent(chart.container, 'touchstart', dragStart);
+    }(Highcharts));
+}
+
+// 初期チャートの設定とデフォルトデータ
+var defaultData = [
+    [5.6, 7.0, 4.73, 'United States of America'],
+    [8.07, 9.06, 4.48, "People's Republic of China"],
+    [9.66, 10.55, 4.06, 'Japan'],
+    [7.02, 8.58, 5.17, 'Great Britain'],
+    [10.1, 9.29, 3.26, 'ROC']
+    // 必要に応じて追加のデフォルトデータを追加
+];
+
+processData(defaultData);
