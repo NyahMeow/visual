@@ -41,7 +41,14 @@ function processFile() {
         // 読み込まれたデータをコンソールに出力
         console.log("Loaded data:", json);
 
-        processData(json);
+      　processData(json);
+        // ファイルをアップロードした後にイベントリスナーを再設定
+        const resizeChartButton = document.getElementById('resizeChart');
+        if (resizeChartButton) {
+            resizeChartButton.addEventListener('click', resizeChart);
+        } else {
+            console.error("Resize chart button not found in the document");
+        }
     };
 
     reader.onerror = function(e) {
