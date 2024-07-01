@@ -1,3 +1,5 @@
+let chart; // グローバル変数としてチャートを宣言
+
 document.addEventListener('DOMContentLoaded', function() {
     const analyzeButton = document.getElementById('analyzeButton');
     const resizeChartButton = document.getElementById('resizeChart');
@@ -8,6 +10,9 @@ document.addEventListener('DOMContentLoaded', function() {
     resizeChartButton.addEventListener('click', resizeChart);
     updateAxisRangeButton.addEventListener('click', updateAxisRange);
     updateUnitsButton.addEventListener('click', updateAxisUnits);
+
+    // 初期チャートの作成
+    createChart([]);
 });
 
 function processFile() {
@@ -45,7 +50,7 @@ function resizeChart() {
     const width = parseInt(document.getElementById('chartWidth').value, 10);
     const height = parseInt(document.getElementById('chartHeight').value, 10);
     const depth = parseInt(document.getElementById('chartDepth').value, 10); // z軸のサイズを取得
-    const chart = Highcharts.charts[0];
+
     if (chart) {
         chart.update({
             chart: {
@@ -64,7 +69,6 @@ function resizeChart() {
 
 function updateAxisUnits() {
     console.log("Updating axis units...");
-    const chart = Highcharts.charts[0];
     if (chart) {
         chart.xAxis[0].setTitle({ text: document.getElementById('xAxisUnit').value });
         chart.yAxis[0].setTitle({ text: document.getElementById('yAxisUnit').value });
@@ -77,7 +81,6 @@ function updateAxisUnits() {
 
 function updateAxisRange() {
     console.log("Updating axis range...");
-    const chart = Highcharts.charts[0];
     if (chart) {
         chart.xAxis[0].update({
             min: parseFloat(document.getElementById('xMin').value),
@@ -98,15 +101,15 @@ function updateAxisRange() {
 }
 
 function processData(data) {
-    var dataArray = [];
-    for (var i = 1; i < data.length; i++) { // ヘッダー行をスキップ
-        var row = data[i];
+    const dataArray = [];
+    for (let i = 1; i < data.length; i++) { // ヘッダー行をスキップ
+        const row = data[i];
         if (Array.isArray(row) && row.length >= 4) { // 少なくとも4列があることを確認
-            var x = parseFloat(row[0]);
-            var y = parseFloat(row[1]);
-            var z = parseFloat(row[2]);
-            var country = row[3];
-            var color = 'rgba(0, 105, 255, ' + (1 - (z / 5)) + ')'; // zの範囲に応じた色の設定
+            const x = parseFloat(row[0]);
+            const y = parseFloat(row[1]);
+            const z = parseFloat(row[2]);
+            const country = row[3];
+            const color = 'rgba(0, 105, 255, ' + (1 - (z / 5)) + ')'; // zの範囲に応じた色の設定
 
             dataArray.push({
                 'x': x,
@@ -124,7 +127,7 @@ function processData(data) {
 
 function createChart(dataArray) {
     console.log("Creating chart with data:", dataArray); // デバッグ用ログ
-    var chart = Highcharts.chart('container', {
+    chart = Highcharts.chart('container', {
         chart: {
             renderTo: 'container',
             type: 'scatter3d',
@@ -200,12 +203,12 @@ function createChart(dataArray) {
         function dragStart(eStart) {
             eStart = chart.pointer.normalize(eStart);
 
-            var posX = eStart.chartX,
-                posY = eStart.chartY,
-                alpha = chart.options.chart.options3d.alpha,
-                beta = chart.options.chart.options3d.beta,
-                sensitivity = 5,  // lower is more sensitive
-                handlers = [];
+            const posX = eStart.chartX;
+            const posY = eStart.chartY;
+            const alpha = chart.options.chart.options3d.alpha;
+            const beta = chart.options.chart.options3d.beta;
+            const sensitivity = 5;  // lower is more sensitive
+            const handlers = [];
 
             function drag(e) {
                 // Get e.chartX and e.chartY
@@ -241,7 +244,7 @@ function createChart(dataArray) {
 }
 
 // 初期チャートの設定とデフォルトデータ
-var defaultData = [
+const defaultData = [
     [5.6, 7.0, 4.73, 'United States of America'],
     [8.07, 9.06, 4.48, "People's Republic of China"],
     [9.66, 10.55, 4.06, 'Japan'],
