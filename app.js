@@ -33,6 +33,18 @@ function processFile() {
     reader.readAsBinaryString(file);
 }
 
+
+function resizeChart() {
+    const width = document.getElementById('chartWidth').value;
+    const height = document.getElementById('chartHeight').value;
+    const chart = Highcharts.charts[0];
+    chart.setSize(width, height);
+}
+
+document.getElementById('resizeChart').addEventListener('click', resizeChart);
+
+
+
 function processData(data) {
     var dataArray = [];
     var xMin = Number.POSITIVE_INFINITY;
