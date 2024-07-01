@@ -1,31 +1,13 @@
 document.addEventListener('DOMContentLoaded', function() {
     const analyzeButton = document.getElementById('analyzeButton');
-    if (analyzeButton) {
-        analyzeButton.addEventListener('click', processFile);
-    } else {
-        console.error("Analyze button not found in the document");
-    }
-
     const resizeChartButton = document.getElementById('resizeChart');
-    if (resizeChartButton) {
-        resizeChartButton.addEventListener('click', resizeChart);
-    } else {
-        console.error("Resize chart button not found in the document");
-    }
-
     const updateAxisRangeButton = document.getElementById('updateAxisRange');
-    if (updateAxisRangeButton) {
-        updateAxisRangeButton.addEventListener('click', updateAxisRange);
-    } else {
-        console.error("Update Axis Range button not found in the document");
-    }
-
     const updateUnitsButton = document.getElementById('updateUnits');
-    if (updateUnitsButton) {
-        updateUnitsButton.addEventListener('click', updateAxisUnits);
-    } else {
-        console.error("Update units button not found in the document");
-    }
+
+    analyzeButton.addEventListener('click', processFile);
+    resizeChartButton.addEventListener('click', resizeChart);
+    updateAxisRangeButton.addEventListener('click', updateAxisRange);
+    updateUnitsButton.addEventListener('click', updateAxisUnits);
 });
 
 function processFile() {
@@ -49,28 +31,6 @@ function processFile() {
         console.log("Loaded data:", json);
 
         processData(json);
-
-        // ファイルをアップロードした後にイベントリスナーを再設定
-        const resizeChartButton = document.getElementById('resizeChart');
-        if (resizeChartButton) {
-            resizeChartButton.addEventListener('click', resizeChart);
-        } else {
-            console.error("Resize chart button not found in the document");
-        }
-
-        const updateAxisRangeButton = document.getElementById('updateAxisRange');
-        if (updateAxisRangeButton) {
-            updateAxisRangeButton.addEventListener('click', updateAxisRange);
-        } else {
-            console.error("Update Axis Range button not found in the document");
-        }
-
-        const updateUnitsButton = document.getElementById('updateUnits');
-        if (updateUnitsButton) {
-            updateUnitsButton.addEventListener('click', updateAxisUnits);
-        } else {
-            console.error("Update units button not found in the document");
-        }
     };
 
     reader.onerror = function(e) {
@@ -290,4 +250,4 @@ var defaultData = [
     // 必要に応じて追加のデフォルトデータを追加
 ];
 
-processData(defaultData);
+createChart(defaultData);
