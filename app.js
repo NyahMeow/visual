@@ -13,6 +13,13 @@ document.addEventListener('DOMContentLoaded', function() {
         console.error("Resize chart button not found in the document");
     }
 
+    const updateAxisRangeButton = document.getElementById('updateAxisRange');
+    if (updateAxisRangeButton) {
+        updateAxisRangeButton.addEventListener('click', updateAxisRange);
+    } else {
+        console.error("Update Axis Range button not found in the document");
+    }
+
     const updateUnitsButton = document.getElementById('updateUnits');
     if (updateUnitsButton) {
         updateUnitsButton.addEventListener('click', updateAxisUnits);
@@ -41,14 +48,7 @@ function processFile() {
         // 読み込まれたデータをコンソールに出力
         console.log("Loaded data:", json);
 
-      　processData(json);
-        // ファイルをアップロードした後にイベントリスナーを再設定
-        const resizeChartButton = document.getElementById('resizeChart');
-        if (resizeChartButton) {
-            resizeChartButton.addEventListener('click', resizeChart);
-        } else {
-            console.error("Resize chart button not found in the document");
-        }
+        processData(json);
     };
 
     reader.onerror = function(e) {
@@ -57,7 +57,6 @@ function processFile() {
 
     reader.readAsBinaryString(file);
 }
-
 
 function resizeChart() {
     const width = parseInt(document.getElementById('chartWidth').value, 10);
@@ -90,15 +89,28 @@ function updateAxisUnits() {
     }
 }
 
+function updateAxisRange() {
+    const chart = Highcharts.charts[0];
+    if (chart) {
+        chart.xAxis[0].update({
+            min: parseFloat(document.getElementById('xMin').value),
+            max: parseFloat(document.getElementById('xMax').value)
+        });
+        chart.yAxis[0].update({
+            min: parseFloat(document.getElementById('yMin').value),
+            max: parseFloat(document.getElementById('yMax').value)
+        });
+        chart.zAxis[0].update({
+            min: parseFloat(document.getElementById('zMin').value),
+            max: parseFloat(document.getElementById('zMax').value)
+        });
+    } else {
+        console.error("Chart not found.");
+    }
+}
+
 function processData(data) {
     var dataArray = [];
-    var xMin = Number.POSITIVE_INFINITY;
-    var xMax = Number.NEGATIVE_INFINITY;
-    var yMin = Number.POSITIVE_INFINITY;
-    var yMax = Number.NEGATIVE_INFINITY;
-    var zMin = Number.POSITIVE_INFINITY;
-    var zMax = Number.NEGATIVE_INFINITY;
-
     for (var i = 1; i < data.length; i++) { // ヘッダー行をスキップ
         var row = data[i];
         if (Array.isArray(row) && row.length >= 4) { // 少なくとも4列があることを確認
@@ -115,22 +127,14 @@ function processData(data) {
                 'name': country,
                 'color': color
             });
-
-            // x, y, zの最小値と最大値を更新
-            if (x < xMin) xMin = x;
-            if (x > xMax) xMax = x;
-            if (y < yMin) yMin = y;
-            if (y > yMax) yMax = y;
-            if (z < zMin) zMin = z;
-            if (z > zMax) zMax = z;
         }
     }
 
     console.log(dataArray);  // デバッグ用にデータを確認
-    createChart(dataArray, xMin, xMax, yMin, yMax, zMin, zMax);
+    createChart(dataArray);
 }
 
-function createChart(dataArray, xMin, xMax, yMin, yMax, zMin, zMax) {
+function createChart(dataArray) {
     console.log("Creating chart with data:", dataArray); // デバッグ用ログ
     var chart = Highcharts.chart('container', {
         chart: {
@@ -164,25 +168,24 @@ function createChart(dataArray, xMin, xMax, yMin, yMax, zMin, zMax) {
                 depth: 10
             }
         },
-       
-　      xAxis: {
-            min: xMin,
-            max: xMax,
+        xAxis: {
+            min: parseFloat(document.getElementById('xMin').value),
+            max: parseFloat(document.getElementById('xMax').value),
             gridLineWidth: 1,
             title: {
                 text: document.getElementById('xAxisUnit').value
             }
         },
-         yAxis: {
-            min: yMin,
-            max: yMax,
+        yAxis: {
+            min: parseFloat(document.getElementById('yMin').value),
+            max: parseFloat(document.getElementById('yMax').value),
             title: {
                 text: document.getElementById('yAxisUnit').value
             }
         },
         zAxis: {
-            min: zMin,
-            max: zMax,
+            min: parseFloat(document.getElementById('zMin').value),
+            max: parseFloat(document.getElementById('zMax').value),
             showFirstLabel: false,
             title: {
                 text: document.getElementById('zAxisUnit').value
