@@ -6,8 +6,19 @@ document.addEventListener('DOMContentLoaded', function() {
         console.error("Analyze button not found in the document");
     }
 
-    document.getElementById('resizeChart').addEventListener('click', resizeChart);
-    document.getElementById('updateUnits').addEventListener('click', updateAxisUnits);
+    const resizeChartButton = document.getElementById('resizeChart');
+    if (resizeChartButton) {
+        resizeChartButton.addEventListener('click', resizeChart);
+    } else {
+        console.error("Resize chart button not found in the document");
+    }
+
+    const updateUnitsButton = document.getElementById('updateUnits');
+    if (updateUnitsButton) {
+        updateUnitsButton.addEventListener('click', updateAxisUnits);
+    } else {
+        console.error("Update units button not found in the document");
+    }
 });
 
 function processFile() {
