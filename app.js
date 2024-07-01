@@ -42,10 +42,25 @@ function processFile() {
 
 
 function resizeChart() {
-    const width = document.getElementById('chartWidth').value;
-    const height = document.getElementById('chartHeight').value;
+    const width = parseInt(document.getElementById('chartWidth').value, 10);
+    const height = parseInt(document.getElementById('chartHeight').value, 10);
     const chart = Highcharts.charts[0];
-    chart.setSize(width, height);
+    if (chart) {
+        chart.setSize(width, height);
+    } else {
+        console.error("Chart not found.");
+    }
+}
+
+function updateAxisUnits() {
+    const chart = Highcharts.charts[0];
+    if (chart) {
+        chart.xAxis[0].setTitle({ text: document.getElementById('xAxisUnit').value });
+        chart.yAxis[0].setTitle({ text: document.getElementById('yAxisUnit').value });
+        chart.zAxis[0].setTitle({ text: document.getElementById('zAxisUnit').value });
+    } else {
+        console.error("Chart not found.");
+    }
 }
 
 function processData(data) {
@@ -206,17 +221,6 @@ function createChart(dataArray, xMin, xMax, yMin, yMax, zMin, zMax) {
         H.addEvent(chart.container, 'touchstart', dragStart);
     }(Highcharts));
 }
-
-
-function updateAxisUnits() {
-    const chart = Highcharts.charts[0];
-    chart.xAxis[0].setTitle({ text: document.getElementById('xAxisUnit').value });
-    chart.yAxis[0].setTitle({ text: document.getElementById('yAxisUnit').value });
-    chart.zAxis[0].setTitle({ text: document.getElementById('zAxisUnit').value });
-}
-
-document.getElementById('updateUnits').addEventListener('click', updateAxisUnits);
-
 
 // 初期チャートの設定とデフォルトデータ
 var defaultData = [
