@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', (event) => {
+document.addEventListener('DOMContentLoaded', function() {
     console.log("DOM fully loaded and parsed");
     document.getElementById('analyzeButton').addEventListener('click', processFile);
 });
