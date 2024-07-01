@@ -1,6 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
-    console.log("DOM fully loaded and parsed");
-    document.getElementById('analyzeButton').addEventListener('click', processFile);
+    const analyzeButton = document.getElementById('analyzeButton');
+    if (analyzeButton) {
+        analyzeButton.addEventListener('click', processFile);
+    } else {
+        console.error("Analyze button not found in the document");
+    }
 });
 
 function processFile() {
