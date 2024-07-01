@@ -99,19 +99,20 @@ function createChart(dataArray, xMin, xMax) {
                 depth: 10
             }
         },
-        yAxis: {
+       
+　      xAxis: {
+            min: xMin,
+            max: xMax,
+            gridLineWidth: 1,
+            title: {
+                text: document.getElementById('xAxisUnit').value
+            }
+        },
+         yAxis: {
             min: xMin,
             max: xMax,
             title: {
-                text: 'Y-Axis'
-            }
-        },
-        xAxis: {
-            min: xMin, // x軸の最小値を設定
-            max: xMax, // x軸の最大値を設定
-            gridLineWidth: 1,
-            title: {
-                text: 'X-Axis'
+                text: document.getElementById('yAxisUnit').value
             }
         },
         zAxis: {
@@ -119,7 +120,7 @@ function createChart(dataArray, xMin, xMax) {
             max: xMax,
             showFirstLabel: false,
             title: {
-                text: 'Z-Axis'
+                text: document.getElementById('zAxisUnit').value
             }
         },
         legend: {
@@ -181,6 +182,17 @@ function createChart(dataArray, xMin, xMax) {
         H.addEvent(chart.container, 'touchstart', dragStart);
     }(Highcharts));
 }
+
+
+function updateAxisUnits() {
+    const chart = Highcharts.charts[0];
+    chart.xAxis[0].setTitle({ text: document.getElementById('xAxisUnit').value });
+    chart.yAxis[0].setTitle({ text: document.getElementById('yAxisUnit').value });
+    chart.zAxis[0].setTitle({ text: document.getElementById('zAxisUnit').value });
+}
+
+document.getElementById('updateUnits').addEventListener('click', updateAxisUnits);
+
 
 // 初期チャートの設定とデフォルトデータ
 var defaultData = [
