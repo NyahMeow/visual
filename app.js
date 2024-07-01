@@ -138,7 +138,7 @@ function createChart(dataArray) {
                 beta: 30,
                 depth: 250,
                 viewDistance: 5,
-                fitToPlot: true, // fitToPlotをtrueに設定
+                fitToPlot: false, // fitToPlotをfalseに設定
                 frame: {
                     bottom: { size: 1, color: 'rgba(0,0,0,0.02)' },
                     back: { size: 1, color: 'rgba(0,0,0,0.04)' },
