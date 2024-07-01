@@ -55,9 +55,18 @@ function processFile() {
 function resizeChart() {
     const width = parseInt(document.getElementById('chartWidth').value, 10);
     const height = parseInt(document.getElementById('chartHeight').value, 10);
+    const depth = parseInt(document.getElementById('chartDepth').value, 10); // z軸のサイズを取得
     const chart = Highcharts.charts[0];
     if (chart) {
-        chart.setSize(width, height);
+        chart.update({
+            chart: {
+                width: width,
+                height: height,
+                options3d: {
+                    depth: depth // z軸のサイズを更新
+                }
+            }
+        });
     } else {
         console.error("Chart not found.");
     }
