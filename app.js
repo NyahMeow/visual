@@ -49,6 +49,28 @@ function processFile() {
         console.log("Loaded data:", json);
 
         processData(json);
+
+        // ファイルをアップロードした後にイベントリスナーを再設定
+        const resizeChartButton = document.getElementById('resizeChart');
+        if (resizeChartButton) {
+            resizeChartButton.addEventListener('click', resizeChart);
+        } else {
+            console.error("Resize chart button not found in the document");
+        }
+
+        const updateAxisRangeButton = document.getElementById('updateAxisRange');
+        if (updateAxisRangeButton) {
+            updateAxisRangeButton.addEventListener('click', updateAxisRange);
+        } else {
+            console.error("Update Axis Range button not found in the document");
+        }
+
+        const updateUnitsButton = document.getElementById('updateUnits');
+        if (updateUnitsButton) {
+            updateUnitsButton.addEventListener('click', updateAxisUnits);
+        } else {
+            console.error("Update units button not found in the document");
+        }
     };
 
     reader.onerror = function(e) {
@@ -59,6 +81,7 @@ function processFile() {
 }
 
 function resizeChart() {
+    console.log("Resizing chart...");
     const width = parseInt(document.getElementById('chartWidth').value, 10);
     const height = parseInt(document.getElementById('chartHeight').value, 10);
     const depth = parseInt(document.getElementById('chartDepth').value, 10); // z軸のサイズを取得
@@ -73,23 +96,27 @@ function resizeChart() {
                 }
             }
         });
+        console.log("Chart resized to width:", width, "height:", height, "depth:", depth);
     } else {
         console.error("Chart not found.");
     }
 }
 
 function updateAxisUnits() {
+    console.log("Updating axis units...");
     const chart = Highcharts.charts[0];
     if (chart) {
         chart.xAxis[0].setTitle({ text: document.getElementById('xAxisUnit').value });
         chart.yAxis[0].setTitle({ text: document.getElementById('yAxisUnit').value });
         chart.zAxis[0].setTitle({ text: document.getElementById('zAxisUnit').value });
+        console.log("Axis units updated.");
     } else {
         console.error("Chart not found.");
     }
 }
 
 function updateAxisRange() {
+    console.log("Updating axis range...");
     const chart = Highcharts.charts[0];
     if (chart) {
         chart.xAxis[0].update({
@@ -104,6 +131,7 @@ function updateAxisRange() {
             min: parseFloat(document.getElementById('zMin').value),
             max: parseFloat(document.getElementById('zMax').value)
         });
+        console.log("Axis range updated.");
     } else {
         console.error("Chart not found.");
     }
