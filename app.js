@@ -5,6 +5,9 @@ document.addEventListener('DOMContentLoaded', function() {
     } else {
         console.error("Analyze button not found in the document");
     }
+
+    document.getElementById('resizeChart').addEventListener('click', resizeChart);
+    document.getElementById('updateUnits').addEventListener('click', updateAxisUnits);
 });
 
 function processFile() {
@@ -45,14 +48,14 @@ function resizeChart() {
     chart.setSize(width, height);
 }
 
-document.getElementById('resizeChart').addEventListener('click', resizeChart);
-
-
-
 function processData(data) {
     var dataArray = [];
     var xMin = Number.POSITIVE_INFINITY;
     var xMax = Number.NEGATIVE_INFINITY;
+    var yMin = Number.POSITIVE_INFINITY;
+    var yMax = Number.NEGATIVE_INFINITY;
+    var zMin = Number.POSITIVE_INFINITY;
+    var zMax = Number.NEGATIVE_INFINITY;
 
     for (var i = 1; i < data.length; i++) { // ヘッダー行をスキップ
         var row = data[i];
@@ -71,17 +74,21 @@ function processData(data) {
                 'color': color
             });
 
-            // xの最小値と最大値を更新
+            // x, y, zの最小値と最大値を更新
             if (x < xMin) xMin = x;
             if (x > xMax) xMax = x;
+            if (y < yMin) yMin = y;
+            if (y > yMax) yMax = y;
+            if (z < zMin) zMin = z;
+            if (z > zMax) zMax = z;
         }
     }
 
     console.log(dataArray);  // デバッグ用にデータを確認
-    createChart(dataArray, xMin, xMax);
+    createChart(dataArray, xMin, xMax, yMin, yMax, zMin, zMax);
 }
 
-function createChart(dataArray, xMin, xMax) {
+function createChart(dataArray, xMin, xMax, yMin, yMax, zMin, zMax) {
     console.log("Creating chart with data:", dataArray); // デバッグ用ログ
     var chart = Highcharts.chart('container', {
         chart: {
@@ -125,15 +132,15 @@ function createChart(dataArray, xMin, xMax) {
             }
         },
          yAxis: {
-            min: xMin,
-            max: xMax,
+            min: yMin,
+            max: yMax,
             title: {
                 text: document.getElementById('yAxisUnit').value
             }
         },
         zAxis: {
-            min: xMin,
-            max: xMax,
+            min: zMin,
+            max: zMax,
             showFirstLabel: false,
             title: {
                 text: document.getElementById('zAxisUnit').value
@@ -145,7 +152,8 @@ function createChart(dataArray, xMin, xMax) {
         series: [{
             name: 'Data',
             colorByPoint: true,
-            data: dataArray
+            data: dataArray,
+            keys: ['x', 'y', 'z', 'name', 'color'] // データのキーを指定
         }],
         tooltip: {
             headerFormat: '',
