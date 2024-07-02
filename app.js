@@ -128,12 +128,13 @@ function createChart(dataArray) {
         chart: {
             renderTo: 'container',
             type: 'scatter3d',
-            margin: [80, 80, 80, 80], // マージンを調整
+            width: 650, // 初期幅
+            height: 600, // 初期高さ
             options3d: {
                 enabled: true,
                 alpha: 10,
                 beta: 30,
-                depth: 250,
+                depth: 350,
                 viewDistance: 5,
                 fitToPlot: false, // fitToPlotをfalseに設定
                 frame: {
