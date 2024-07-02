@@ -10,9 +10,6 @@ document.addEventListener('DOMContentLoaded', function() {
     resizeChartButton.addEventListener('click', resizeChart);
     updateAxisRangeButton.addEventListener('click', updateAxisRange);
     updateUnitsButton.addEventListener('click', updateAxisUnits);
-
-    // 初期チャートの作成
-    createChart([]);
 });
 
 function processFile() {
@@ -109,7 +106,7 @@ function processData(data) {
             const y = parseFloat(row[1]);
             const z = parseFloat(row[2]);
             const country = row[3];
-            const color = 'rgba(0, 105, 255, ' + (1 - (z / 5)) + ')'; // zの範囲に応じた色の設定
+            const color = 'rgba(0, 105, 255, ' + (z / 5) + ')'; // zの範囲に応じた色の設定（大きい方が濃い）
 
             dataArray.push({
                 'x': x,
@@ -242,15 +239,3 @@ function createChart(dataArray) {
         H.addEvent(chart.container, 'touchstart', dragStart);
     }(Highcharts));
 }
-
-// 初期チャートの設定とデフォルトデータ
-const defaultData = [
-    [5.6, 7.0, 4.73, 'United States of America'],
-    [8.07, 9.06, 4.48, "People's Republic of China"],
-    [9.66, 10.55, 4.06, 'Japan'],
-    [7.02, 8.58, 5.17, 'Great Britain'],
-    [10.1, 9.29, 3.26, 'ROC']
-    // 必要に応じて追加のデフォルトデータを追加
-];
-
-createChart(defaultData);
