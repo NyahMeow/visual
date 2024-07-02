@@ -128,6 +128,7 @@ function createChart(dataArray) {
         chart: {
             renderTo: 'container',
             type: 'scatter3d',
+            margin: [80, 80, 80, 80], // マージンを調整
             width: 650, // 初期幅
             height: 600, // 初期高さ
             options3d: {
