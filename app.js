@@ -149,7 +149,7 @@ function createChart(dataArray) {
             text: '3D Scatter Plot'
         },
         subtitle: {
-            text: 'Highcharts 3D Scatter Chart'
+            text: 'Use the mouse to navigate around this 3D plot.'
         },
         plotOptions: {
             scatter: {
