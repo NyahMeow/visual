@@ -8,9 +8,9 @@
 </head>
 <body>
     <input type="file" id="fileInput" accept=".xlsx, .xls" />
-    <button id="analyzeButton">Analyze</button>
+    <button id="analyzeButton">Plot the Data</button>
     <div id="container"></div>
-
+<br>
     <div>
         <label for="chartWidth">Width:</label>
         <input type="number" id="chartWidth" value="650" min="200" max="2000">
@@ -38,13 +38,13 @@
     </div>
 
     <div>
-        <label for="xAxisUnit">X-Axis Unit:</label>
-        <input type="text" id="xAxisUnit" value="GDP per capita">
-        <label for="yAxisUnit">Y-Axis Unit:</label>
-        <input type="text" id="yAxisUnit" value="Population"><br>
-        <label for="zAxisUnit">Z-Axis Unit:</label>
-        <input type="text" id="zAxisUnit" value="Medals">
-        <button id="updateUnits">Update Units</button>
+        <label for="xAxisUnit">X-Axis Label:</label>
+        <input type="text" id="xAxisUnit" value="X">
+        <label for="yAxisUnit">Y-Axis Label:</label>
+        <input type="text" id="yAxisUnit" value="Y"><br>
+        <label for="zAxisUnit">Z-Axis Label:</label>
+        <input type="text" id="zAxisUnit" value="Z">
+        <button id="updateUnits">Update Labels</button>
     </div>
     
     <script src="https://code.highcharts.com/highcharts.js"></script>
