@@ -192,7 +192,7 @@ function createChart(dataArray) {
         }],
         tooltip: {
             headerFormat: '',
-            pointFormat: '<b>{point.name}</b><br>GDP per capita: {point.x}<br>Population: {point.y}<br>Medals: {point.z}'
+            pointFormat: '<b>{point.name}</b><br>GDP per capita: {point.x:.3f}<br>Population: {point.y:.3f}<br>Medals: {point.z:.3f}'
         }
     });
     console.log(chart); // チャートオブジェクトの確認
