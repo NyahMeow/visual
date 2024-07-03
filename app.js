@@ -118,14 +118,14 @@ function processData(data) {
             const x = parseFloat(row[0]);
             const y = parseFloat(row[1]);
             const z = parseFloat(row[2]);
-            const country = row[3];
+            const name = row[3];
             const color = 'rgba(0, 105, 255, ' + (z / 5) + ')'; // zの範囲に応じた色の設定（大きい方が濃い）
 
             dataArray.push({
                 'x': x,
                 'y': y,
                 'z': z,
-                'name': country,
+                'name': name,
                 'color': color
             });
         }
