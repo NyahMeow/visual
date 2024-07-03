@@ -138,6 +138,9 @@ function processData(data) {
 function createChart(dataArray) {
     console.log("Creating chart with data:", dataArray); // デバッグ用ログ
     const chartTitle = document.getElementById('container').getAttribute('data-title'); // 追加
+    const xAxisUnit = document.getElementById('xAxisUnit').value; // 追加
+    const yAxisUnit = document.getElementById('yAxisUnit').value; // 追加
+    const zAxisUnit = document.getElementById('zAxisUnit').value; // 追加
     chart = Highcharts.chart('container', {
         chart: {
             renderTo: 'container',
@@ -177,14 +180,14 @@ function createChart(dataArray) {
             max: parseFloat(document.getElementById('xMax').value),
             gridLineWidth: 1,
             title: {
-                text: document.getElementById('xAxisUnit').value
+                text: xAxisUnit
             }
         },
         yAxis: {
             min: parseFloat(document.getElementById('yMin').value),
             max: parseFloat(document.getElementById('yMax').value),
             title: {
-                text: document.getElementById('yAxisUnit').value
+                text: yAxisUnit
             }
         },
         zAxis: {
@@ -192,7 +195,7 @@ function createChart(dataArray) {
             max: parseFloat(document.getElementById('zMax').value),
             showFirstLabel: false,
             title: {
-                text: document.getElementById('zAxisUnit').value
+                text: zAxisUnit
             }
         },
         legend: {
@@ -206,8 +209,8 @@ function createChart(dataArray) {
         }],
         tooltip: {
             headerFormat: '',
-            pointFormat: '<b>{point.name}</b><br>GDP per capita: {point.x:.3f}<br>Population: {point.y:.3f}<br>Medals: {point.z:.3f}'
-        }
+            pointFormat: `<b>{point.name}</b><br>${xAxisUnit}: {point.x:.3f}<br>${yAxisUnit}: {point.y:.3f}<br>${zAxisUnit}: {point.z:.3f}` // 小数点以下3桁まで表示
+          }
     });
     console.log(chart); // チャートオブジェクトの確認
 
