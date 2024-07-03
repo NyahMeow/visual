@@ -5,11 +5,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const resizeChartButton = document.getElementById('resizeChart');
     const updateAxisRangeButton = document.getElementById('updateAxisRange');
     const updateUnitsButton = document.getElementById('updateUnits');
+    const updateViewDistanceButton = document.getElementById('updateViewDistance');
 
     analyzeButton.addEventListener('click', processFile);
     resizeChartButton.addEventListener('click', resizeChart);
     updateAxisRangeButton.addEventListener('click', updateAxisRange);
     updateUnitsButton.addEventListener('click', updateAxisUnits);
+    updateViewDistanceButton.addEventListener('click', updateViewDistance);
 });
 
 function processFile() {
@@ -110,6 +112,24 @@ function updateAxisRange() {
     }
 }
 
+function updateViewDistance() {
+    console.log("Updating view distance...");
+    const viewDistance = parseInt(document.getElementById('viewDistance').value, 10);
+
+    if (chart) {
+        chart.update({
+            chart: {
+                options3d: {
+                    viewDistance: viewDistance
+                }
+            }
+        });
+        console.log("View distance updated to:", viewDistance);
+    } else {
+        console.error("Chart not found.");
+    }
+}
+
 function processData(data) {
     const dataArray = [];
     for (let i = 1; i < data.length; i++) { // ヘッダー行をスキップ
@@ -141,6 +161,7 @@ function createChart(dataArray) {
     const xAxisUnit = document.getElementById('xAxisUnit').value; // 追加
     const yAxisUnit = document.getElementById('yAxisUnit').value; // 追加
     const zAxisUnit = document.getElementById('zAxisUnit').value; // 追加
+    const viewDistance = parseInt(document.getElementById('viewDistance').value, 10); // 追加
     chart = Highcharts.chart('container', {
         chart: {
             renderTo: 'container',
@@ -153,7 +174,7 @@ function createChart(dataArray) {
                 alpha: 10,
                 beta: 30,
                 depth: 350,
-                viewDistance: 5,
+                viewDistance: viewDistance,
                 fitToPlot: false, // fitToPlotをfalseに設定
                 frame: {
                     bottom: { size: 1, color: 'rgba(0,0,0,0.02)' },
