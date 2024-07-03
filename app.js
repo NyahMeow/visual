@@ -32,6 +32,19 @@ function processFile() {
         // 読み込まれたデータをコンソールに出力
         console.log("Loaded data:", json);
 
+        // ファイル名から拡張子を除いた名前を取得 (追加)
+        const fileName = file.name.split('.').slice(0, -1).join('.');
+
+        // X, Y, Z軸の名称を初期設定 (追加)
+        if (json.length > 0) {
+            document.getElementById('xAxisUnit').value = json[0][0] || 'X-Axis';
+            document.getElementById('yAxisUnit').value = json[0][1] || 'Y-Axis';
+            document.getElementById('zAxisUnit').value = json[0][2] || 'Z-Axis';
+        }
+
+        // チャートタイトルをファイル名に設定 (追加)
+        document.getElementById('container').setAttribute('data-title', fileName);
+        
         processData(json);
     };
 
@@ -124,6 +137,7 @@ function processData(data) {
 
 function createChart(dataArray) {
     console.log("Creating chart with data:", dataArray); // デバッグ用ログ
+    const chartTitle = document.getElementById('container').getAttribute('data-title'); // 追加
     chart = Highcharts.chart('container', {
         chart: {
             renderTo: 'container',
@@ -146,7 +160,7 @@ function createChart(dataArray) {
             }
         },
         title: {
-            text: '3D Scatter Plot'
+            text: chartTitle || '3D Scatter Plot' // ファイル名をタイトルに設定
         },
         subtitle: {
             text: 'Use the mouse to navigate around this 3D plot.'
