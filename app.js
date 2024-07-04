@@ -3,6 +3,13 @@ let originalData; // 元のデータを保存する変数
 let customColors = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FFA500']; // 初期色設定
 
 document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const chartConfigParam = urlParams.get('chartConfig');
+    if (chartConfigParam) {
+        const decodedConfig = JSON.parse(decodeURIComponent(chartConfigParam));
+        chart = Highcharts.chart('container', decodedConfig);
+    }
+    
     const analyzeButton = document.getElementById('analyzeButton');
     const resizeChartButton = document.getElementById('resizeChart');
     const updateAxisRangeButton = document.getElementById('updateAxisRange');
@@ -10,6 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const updateViewDistanceButton = document.getElementById('updateViewDistance');
     const updateColoringButton = document.getElementById('updateColoring');
     const updateColorsButton = document.getElementById('updateColors');
+    const generateLinkButton = document.getElementById('generateLink');
 
     analyzeButton.addEventListener('click', processFile);
     resizeChartButton.addEventListener('click', resizeChart);
@@ -18,6 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
     updateViewDistanceButton.addEventListener('click', updateViewDistance);
     updateColoringButton.addEventListener('click', updateColoring);
     updateColorsButton.addEventListener('click', updateColors);
+    generateLinkButton.addEventListener('click', generateLink);
 });
 
 function processFile() {
@@ -307,4 +316,14 @@ function createChart(dataArray) {
         H.addEvent(chart.container, 'mousedown', dragStart);
         H.addEvent(chart.container, 'touchstart', dragStart);
     }(Highcharts));
+}
+
+function generateLink() {
+    const chartConfig = chart.userOptions;
+    const chartConfigStr = JSON.stringify(chartConfig);
+    const encodedConfig = encodeURIComponent(chartConfigStr);
+    const link = `${window.location.origin}${window.location.pathname}?chartConfig=${encodedConfig}`;
+    
+    const linkContainer = document.getElementById('linkContainer');
+    linkContainer.innerHTML = `<a href="${link}" target="_blank">Open Chart</a>`;
 }
