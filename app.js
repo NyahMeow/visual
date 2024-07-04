@@ -1,4 +1,5 @@
 let chart; // グローバル変数としてチャートを宣言
+let originalData; // 元のデータを保存する変数
 
 document.addEventListener('DOMContentLoaded', function() {
     const analyzeButton = document.getElementById('analyzeButton');
@@ -6,12 +7,14 @@ document.addEventListener('DOMContentLoaded', function() {
     const updateAxisRangeButton = document.getElementById('updateAxisRange');
     const updateUnitsButton = document.getElementById('updateUnits');
     const updateViewDistanceButton = document.getElementById('updateViewDistance');
+    const updateColoringButton = document.getElementById('updateColoring');
 
     analyzeButton.addEventListener('click', processFile);
     resizeChartButton.addEventListener('click', resizeChart);
     updateAxisRangeButton.addEventListener('click', updateAxisRange);
     updateUnitsButton.addEventListener('click', updateAxisUnits);
     updateViewDistanceButton.addEventListener('click', updateViewDistance);
+    updateColoringButton.addEventListener('click', updateColoring);
 });
 
 function processFile() {
@@ -47,6 +50,7 @@ function processFile() {
         // チャートタイトルをファイル名に設定 (追加)
         document.getElementById('container').setAttribute('data-title', fileName);
         
+        originalData = json;
         processData(json);
     };
 
@@ -130,7 +134,13 @@ function updateViewDistance() {
     }
 }
 
-function processData(data) {
+function updateColoring() {
+    console.log("Updating coloring...");
+    const colorColumn = document.getElementById('colorColumn').value;
+    processData(originalData, colorColumn);
+}
+
+function processData(data, colorColumn = 'z') {
     const dataArray = [];
     for (let i = 1; i < data.length; i++) { // ヘッダー行をスキップ
         const row = data[i];
@@ -139,7 +149,11 @@ function processData(data) {
             const y = parseFloat(row[1]);
             const z = parseFloat(row[2]);
             const name = row[3];
-            const color = 'rgba(0, 105, 255, ' + (z / 5) + ')'; // zの範囲に応じた色の設定（大きい方が濃い）
+            const colorValue = colorColumn === 'z' ? z : parseFloat(row[4]); // 色付けに使用する値
+
+            const color = colorColumn === 'z'
+                ? 'rgba(0, 105, 255, ' + (colorValue / 5) + ')' // zの範囲に応じた色の設定（大きい方が濃い）
+                : getColorByValue(colorValue); // E列の値に基づいた色の設定
 
             dataArray.push({
                 'x': x,
@@ -153,6 +167,18 @@ function processData(data) {
 
     console.log(dataArray);  // デバッグ用にデータを確認
     createChart(dataArray);
+}
+
+function getColorByValue(value) {
+    // 値に基づいて色を決定する関数
+    const colors = [
+        'rgba(255, 0, 0, 0.8)', // Red
+        'rgba(0, 255, 0, 0.8)', // Green
+        'rgba(0, 0, 255, 0.8)', // Blue
+        'rgba(255, 255, 0, 0.8)', // Yellow
+        'rgba(255, 165, 0, 0.8)' // Orange
+    ];
+    return colors[value % colors.length]; // 値に応じて色を循環させる
 }
 
 function createChart(dataArray) {
