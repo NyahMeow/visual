@@ -1,5 +1,6 @@
 let chart; // グローバル変数としてチャートを宣言
 let originalData; // 元のデータを保存する変数
+let customColors = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FFA500']; // 初期色設定
 
 document.addEventListener('DOMContentLoaded', function() {
     const analyzeButton = document.getElementById('analyzeButton');
@@ -8,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const updateUnitsButton = document.getElementById('updateUnits');
     const updateViewDistanceButton = document.getElementById('updateViewDistance');
     const updateColoringButton = document.getElementById('updateColoring');
+    const updateColorsButton = document.getElementById('updateColors');
 
     analyzeButton.addEventListener('click', processFile);
     resizeChartButton.addEventListener('click', resizeChart);
@@ -15,6 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
     updateUnitsButton.addEventListener('click', updateAxisUnits);
     updateViewDistanceButton.addEventListener('click', updateViewDistance);
     updateColoringButton.addEventListener('click', updateColoring);
+    updateColorsButton.addEventListener('click', updateColors);
 });
 
 function processFile() {
@@ -140,6 +143,14 @@ function updateColoring() {
     processData(originalData, colorColumn);
 }
 
+function updateColors() {
+    console.log("Updating custom colors...");
+    for (let i = 0; i < 5; i++) {
+        customColors[i] = document.getElementById(`color${i}`).value;
+    }
+    processData(originalData, document.getElementById('colorColumn').value);
+}
+
 function processData(data, colorColumn = 'z') {
     const dataArray = [];
     for (let i = 1; i < data.length; i++) { // ヘッダー行をスキップ
@@ -170,15 +181,7 @@ function processData(data, colorColumn = 'z') {
 }
 
 function getColorByValue(value) {
-    // 値に基づいて色を決定する関数
-    const colors = [
-        'rgba(255, 0, 0, 0.8)', // Red
-        'rgba(0, 255, 0, 0.8)', // Green
-        'rgba(0, 0, 255, 0.8)', // Blue
-        'rgba(255, 255, 0, 0.8)', // Yellow
-        'rgba(255, 165, 0, 0.8)' // Orange
-    ];
-    return colors[value % colors.length]; // 値に応じて色を循環させる
+    return customColors[value % customColors.length]; // 値に応じてカスタムカラーを循環させる
 }
 
 function createChart(dataArray) {
