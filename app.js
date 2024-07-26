@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const updateColoringButton = document.getElementById('updateColoring');
     const updateColorsButton = document.getElementById('updateColors');
     const generateLinkButton = document.getElementById('generateLink');
+    const generateEmbedCodeButton = document.getElementById('generateEmbedCode');
 
     analyzeButton.addEventListener('click', processFile);
     resizeChartButton.addEventListener('click', resizeChart);
@@ -27,6 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
     updateColoringButton.addEventListener('click', updateColoring);
     updateColorsButton.addEventListener('click', updateColors);
     generateLinkButton.addEventListener('click', generateLink);
+    generateEmbedCodeButton.addEventListener('click', generateEmbedCode);
 });
 
 function processFile() {
@@ -349,15 +351,19 @@ function generateEmbedCode() {
     }
 
     const chartConfig = chart.userOptions;
+    console.log("Chart Config:", chartConfig); // Debugging log
     const chartConfigStr = JSON.stringify(chartConfig);
+    console.log("Chart Config String:", chartConfigStr); // Debugging log
     const encodedConfig = encodeURIComponent(chartConfigStr);
+    console.log("Encoded Config:", encodedConfig); // Debugging log
     const embedCode = `<iframe src="${window.location.origin}${window.location.pathname}?chartConfig=${encodedConfig}" width="800" height="600" frameborder="0"></iframe>`;
+    console.log("Generated Embed Code:", embedCode); // Debugging log
+   
     const embedContainer = document.getElementById('embedContainer');
+    console.log("Embed Container:", embedContainer); // Debugging log
     if (embedContainer) {
         embedContainer.textContent = embedCode;
     } else {
         console.error("Element with ID 'embedContainer' not found.");
     }
 }
-
-document.getElementById('generateEmbedCode').addEventListener('click', generateEmbedCode);
