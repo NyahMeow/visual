@@ -319,11 +319,21 @@ function createChart(dataArray) {
 }
 
 function generateLink() {
+     if (!chart) {
+        alert("Chart is not initialized.");
+        return;
+    }
     const chartConfig = chart.userOptions;
     const chartConfigStr = JSON.stringify(chartConfig);
     const encodedConfig = encodeURIComponent(chartConfigStr);
     const link = `${window.location.origin}${window.location.pathname}?chartConfig=${encodedConfig}`;
     
     const linkContainer = document.getElementById('linkContainer');
+    
     linkContainer.innerHTML = `<a href="${link}" target="_blank">Open Chart</a>`;
+    if (linkContainer) {
+        linkContainer.innerHTML = `<a href="${link}" target="_blank">Open Chart</a>`;
+    } else {
+        console.error("Element with ID 'linkContainer' not found.");
+    }
 }
