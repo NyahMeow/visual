@@ -337,3 +337,25 @@ function generateLink() {
         console.error("Element with ID 'linkContainer' not found.");
     }
 }
+
+
+function generateEmbedCode() {
+    if (!chart) {
+        alert("Chart is not initialized.");
+        return;
+    }
+
+    const chartConfig = chart.userOptions;
+    const chartConfigStr = JSON.stringify(chartConfig);
+    const encodedConfig = encodeURIComponent(chartConfigStr);
+    const embedCode = `<iframe src="${window.location.origin}${window.location.pathname}?chartConfig=${encodedConfig}" width="800" height="600" frameborder="0"></iframe>`;
+    
+    const embedContainer = document.getElementById('embedContainer');
+    if (embedContainer) {
+        embedContainer.textContent = embedCode;
+    } else {
+        console.error("Element with ID 'embedContainer' not found.");
+    }
+}
+
+document.getElementById('generateEmbedCode').addEventListener('click', generateEmbedCode);
