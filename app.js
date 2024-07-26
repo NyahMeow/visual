@@ -324,13 +324,16 @@ function generateLink() {
         return;
     }
     const chartConfig = chart.userOptions;
+    console.log("Chart Config:", chartConfig); // Debugging log
     const chartConfigStr = JSON.stringify(chartConfig);
+    console.log("Chart Config String:", chartConfigStr); // Debugging log
     const encodedConfig = encodeURIComponent(chartConfigStr);
+    console.log("Encoded Config:", encodedConfig); // Debugging log
     const link = `${window.location.origin}${window.location.pathname}?chartConfig=${encodedConfig}`;
+    console.log("Generated Link:", link); // Debugging log
     
     const linkContainer = document.getElementById('linkContainer');
-    
-    linkContainer.innerHTML = `<a href="${link}" target="_blank">Open Chart</a>`;
+    console.log("Link Container:", linkContainer); // Debugging log
     if (linkContainer) {
         linkContainer.innerHTML = `<a href="${link}" target="_blank">Open Chart</a>`;
     } else {
@@ -349,7 +352,6 @@ function generateEmbedCode() {
     const chartConfigStr = JSON.stringify(chartConfig);
     const encodedConfig = encodeURIComponent(chartConfigStr);
     const embedCode = `<iframe src="${window.location.origin}${window.location.pathname}?chartConfig=${encodedConfig}" width="800" height="600" frameborder="0"></iframe>`;
-    
     const embedContainer = document.getElementById('embedContainer');
     if (embedContainer) {
         embedContainer.textContent = embedCode;
