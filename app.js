@@ -208,4 +208,137 @@ function createChart(dataArray) {
     const xAxisUnit = document.getElementById('xAxisUnit').value; // 追加
     const yAxisUnit = document.getElementById('yAxisUnit').value; // 追加
     const zAxisUnit = document.getElementById('zAxisUnit').value; // 追加
-    const viewDistance = parseInt(document.getElementById('view
+    const viewDistance = parseInt(document.getElementById('viewDistance').value, 10); // 追加
+    chart = Highcharts.chart('container', {
+        chart: {
+            renderTo: 'container',
+            type: 'scatter3d',
+            margin: [80, 80, 80, 80], // マージンを調整
+            width: 650, // 初期幅
+            height: 600, // 初期高さ
+            options3d: {
+                enabled: true,
+                alpha: 10,
+                beta: 30,
+                depth: 350,
+                viewDistance: viewDistance,
+                fitToPlot: false, // fitToPlotをfalseに設定
+                frame: {
+                    bottom: { size: 1, color: 'rgba(0,0,0,0.02)' },
+                    back: { size: 1, color: 'rgba(0,0,0,0.04)' },
+                    side: { size: 1, color: 'rgba(0,0,0,0.06)' }
+                }
+            }
+        },
+        title: {
+            text: chartTitle || '3D Scatter Plot' // ファイル名をタイトルに設定
+        },
+        subtitle: {
+            text: 'Use the mouse to navigate around this 3D plot.'
+        },
+        plotOptions: {
+            scatter: {
+                width: 10,
+                height: 10,
+                depth: 10
+            }
+        },
+        xAxis: {
+            min: parseFloat(document.getElementById('xMin').value),
+            max: parseFloat(document.getElementById('xMax').value),
+            gridLineWidth: 1,
+            title: {
+                text: xAxisUnit
+            }
+        },
+        yAxis: {
+            min: parseFloat(document.getElementById('yMin').value),
+            max: parseFloat(document.getElementById('yMax').value),
+            title: {
+                text: yAxisUnit
+            }
+        },
+        zAxis: {
+            min: parseFloat(document.getElementById('zMin').value),
+            max: parseFloat(document.getElementById('zMax').value),
+            showFirstLabel: false,
+            title: {
+                text: zAxisUnit
+            }
+        },
+        legend: {
+            enabled: false
+        },
+        series: [{
+            name: 'Data',
+            colorByPoint: true,
+            data: dataArray,
+            keys: ['x', 'y', 'z', 'name', 'color'] // データのキーを指定
+        }],
+        tooltip: {
+            headerFormat: '',
+            pointFormat: `<b>{point.name}</b><br>${xAxisUnit}: {point.x:.3f}<br>${yAxisUnit}: {point.y:.3f}<br>${zAxisUnit}: {point.z:.3f}` // 小数点以下3桁まで表示
+        }
+    });
+    console.log(chart); // チャートオブジェクトの確認
+
+    // 3D散布図のマウスイベントを追加
+    (function (H) {
+        function dragStart(eStart) {
+            eStart = chart.pointer.normalize(eStart);
+
+            const posX = eStart.chartX;
+            const posY = eStart.chartY;
+            const alpha = chart.options.chart.options3d.alpha;
+            const beta = chart.options.chart.options3d.beta;
+            const sensitivity = 5;  // lower is more sensitive
+            const handlers = [];
+
+            function drag(e) {
+                // Get e.chartX and e.chartY
+                e = chart.pointer.normalize(e);
+
+                chart.update({
+                    chart: {
+                        options3d: {
+                            alpha: alpha + (e.chartY - posY) / sensitivity,
+                            beta: beta + (posX - e.chartX) / sensitivity
+                        }
+                    }
+                }, undefined, undefined, false);
+            }
+
+            function unbindAll() {
+                handlers.forEach(function (unbind) {
+                    if (unbind) {
+                        unbind();
+                    }
+                });
+                handlers.length = 0;
+            }
+
+            handlers.push(H.addEvent(document, 'mousemove', drag));
+            handlers.push(H.addEvent(document, 'touchmove', drag));
+            handlers.push(H.addEvent(document, 'mouseup', unbindAll));
+            handlers.push(H.addEvent(document, 'touchend', unbindAll));
+        }
+        H.addEvent(chart.container, 'mousedown', dragStart);
+        H.addEvent(chart.container, 'touchstart', dragStart);
+    }(Highcharts));
+}
+
+function generateLink() {
+    if (!chart) {
+        alert("Chart is not initialized.");
+        return;
+    }
+
+    const chartConfig = chart.userOptions;
+    const chartConfigStr = JSON.stringify(chartConfig);
+    const chartConfigKey = 'chartConfig_' + Date.now();
+    localStorage.setItem(chartConfigKey, chartConfigStr);
+
+    const generatedLink = `${window.location.origin}${window.location.pathname}?chartConfigKey=${chartConfigKey}`;
+    const linkContainer = document.getElementById('linkContainer');
+    linkContainer.innerHTML = `<a href="${generatedLink}" target="_blank">Open Chart</a>`;
+}
