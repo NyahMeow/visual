@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const chartConfig = JSON.parse(localStorage.getItem(chartConfigKey));
         if(chartConfig){
             chart = Highcharts.chart('container', chartConfig);
+        }
     }
     
     const analyzeButton = document.getElementById('analyzeButton');
