@@ -244,63 +244,6 @@ function createChart(dataArray) {
                 }
             }
         },
-        title: {
-            text: chartTitle || '3D Scatter Plot' // ファイル名をタイトルに設定
-        },
-        subtitle: {
-            text: 'Use the mouse to navigate around this 3D plot.'
-        },
-        plotOptions: {
-            scatter: {
-                width: 10,
-                height: 10,
-                depth: 10
-            }
-        },
-        xAxis: {
-            min: parseFloat(document.getElementById('xMin').value),
-            max: parseFloat(document.getElementById('xMax').value),
-            gridLineWidth: 1,
-            title: {
-                text: xAxisUnit
-            }
-        },
-        yAxis: {
-            min: parseFloat(document.getElementById('yMin').value),
-            max: parseFloat(document.getElementById('yMax').value),
-            title: {
-                text: yAxisUnit
-            }
-        },
-        zAxis: {
-            min: parseFloat(document.getElementById('zMin').value),
-            max: parseFloat(document.getElementById('zMax').value),
-            showFirstLabel: false,
-            title: {
-                text: zAxisUnit
-            }
-        },
-        legend: {
-            enabled: false
-        },
-        series: [{
-            name: 'Data',
-            colorByPoint: true,
-            data: dataArray,
-            keys: ['x', 'y', 'z', 'name', 'color'] // データのキーを指定
-        }],
-        tooltip: {
-            headerFormat: '',
-            pointFormat: `<b>{point.name}</b><br>${xAxisUnit}: {point.x:.3f}<br>${yAxisUnit}: {point.y:.3f}<br>${zAxisUnit}: {point.z:.3f}` // 小数点以下3桁まで表示
-        }
-    });
-    console.log(chart); // チャートオブジェクトの確認
-
-    // 3D散布図のマウスイベントを追加
-    (function (H) {
-        function dragStart(eStart) {
-            eStart = chart.pointer.normalize(eStart);
-
             const posX = eStart.chartX;
             const posY = eStart.chartY;
             const alpha = chart.options.chart.options3d.alpha;
