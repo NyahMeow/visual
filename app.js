@@ -11,7 +11,18 @@ document.addEventListener('DOMContentLoaded', function() {
         if (storedConfig) {
             try {
                 const chartConfig = JSON.parse(storedConfig);
-                chartConfig.chart.options3d = { enabled: false }; // Disable 3D navigation
+                chartConfig.chart.options3d.enabled = true; // Enable 3D
+                chartConfig.chart.options3d.alpha = 10;
+                chartConfig.chart.options3d.beta = 30;
+                chartConfig.chart.options3d.depth = 350;
+                chartConfig.chart.options3d.viewDistance = 25;
+                chartConfig.chart.options3d.fitToPlot = false;
+                chartConfig.chart.options3d.frame = {
+                    bottom: { size: 1, color: 'rgba(0,0,0,0.02)' },
+                    back: { size: 1, color: 'rgba(0,0,0,0.04)' },
+                    side: { size: 1, color: 'rgba(0,0,0,0.06)' }
+                };
+
                 chart = Highcharts.chart('container', chartConfig);
                 controls.classList.add('hidden'); // Hide controls
             } catch (e) {
