@@ -188,6 +188,10 @@ function updateColors() {
 
 function processData(data, colorColumn = 'z') {
     const dataArray = [];
+    let xMin = Infinity, xMax = -Infinity;
+    let yMin = Infinity, yMax = -Infinity;
+    let zMin = Infinity, zMax = -Infinity;
+    
     for (let i = 1; i < data.length; i++) { // ヘッダー行をスキップ
         const row = data[i];
         if (Array.isArray(row) && row.length >= 4) { // 少なくとも4列があることを確認
@@ -196,6 +200,13 @@ function processData(data, colorColumn = 'z') {
             const z = parseFloat(row[2]);
             const name = row[3];
             const colorValue = colorColumn === 'z' ? z : parseFloat(row[4]); // 色付けに使用する値
+
+            xMin = Math.min(xMin, x);
+            xMax = Math.max(xMax, x);
+            yMin = Math.min(yMin, y);
+            yMax = Math.max(yMax, y);
+            zMin = Math.min(zMin, z);
+            zMax = Math.max(zMax, z);
 
             const color = colorColumn === 'z'
                 ? 'rgba(0, 105, 255, ' + (colorValue / 5) + ')' // zの範囲に応じた色の設定（大きい方が濃い）
@@ -210,6 +221,14 @@ function processData(data, colorColumn = 'z') {
             });
         }
     }
+
+    // Update the axis range inputs with calculated values
+    document.getElementById('xMin').value = xMin;
+    document.getElementById('xMax').value = xMax;
+    document.getElementById('yMin').value = yMin;
+    document.getElementById('yMax').value = yMax;
+    document.getElementById('zMin').value = zMin;
+    document.getElementById('zMax').value = zMax;
 
     console.log(dataArray);  // デバッグ用にデータを確認
     createChart(dataArray);
