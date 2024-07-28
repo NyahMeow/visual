@@ -12,81 +12,80 @@
     </style>
 </head>
 <body>
-  <div id="controls">
-    <input type="file" id="fileInput" accept=".xlsx, .xls" />
-    <button id="analyzeButton">Plot the Data</button>
-    <div>
-        <label for="chartWidth">Width:</label>
-        <input type="number" id="chartWidth" value="650" min="200" max="2000">
-        <label for="chartHeight">Height:</label>
-        <input type="number" id="chartHeight" value="600" min="200" max="2000">
-        <label for="chartDepth">Depth:</label>
-        <input type="number" id="chartDepth" value="350" min="100" max="1000">
-        <button id="resizeChart">Resize Chart</button>
-    </div>
-<br>
-    <div>
-        <label for="xMin">X Min:</label>
-        <input type="number" id="xMin" value="0">
-        <label for="xMax">X Max:</label>
-        <input type="number" id="xMax" value="30"><br>
-        <label for="yMin">Y Min:</label>
-        <input type="number" id="yMin" value="0">
-        <label for="yMax">Y Max:</label>
-        <input type="number" id="yMax" value="30"><br>
-        <label for="zMin">Z Min:</label>
-        <input type="number" id="zMin" value="0">
-        <label for="zMax">Z Max:</label>
-        <input type="number" id="zMax" value="30">
-        <button id="updateAxisRange">Update Axis Range</button>
-    </div>
-<br>
-    <div>
-        <label for="xAxisUnit">X-Axis Label:</label>
-        <input type="text" id="xAxisUnit" value="X">
-        <label for="yAxisUnit">Y-Axis Label:</label>
-        <input type="text" id="yAxisUnit" value="Y"><br>
-        <label for="zAxisUnit">Z-Axis Label:</label>
-        <input type="text" id="zAxisUnit" value="Z">
-        <button id="updateUnits">Update Labels</button>
-    </div>
-<br>
-    <div>
-        <label for="colorColumn">Coloring Column:</label>
-        <select id="colorColumn">
-            <option value="z">Z-Axis</option>
-            <option value="e">E Column</option>
-        </select>
-        <button id="updateColoring">Update Coloring</button>
-    </div>
+    <div id="controls">
+        <input type="file" id="fileInput" accept=".xlsx, .xls" />
+        <button id="analyzeButton">Plot the Data</button>
+        <div>
+            <label for="chartWidth">Width:</label>
+            <input type="number" id="chartWidth" value="650" min="200" max="2000">
+            <label for="chartHeight">Height:</label>
+            <input type="number" id="chartHeight" value="600" min="200" max="2000">
+            <label for="chartDepth">Depth:</label>
+            <input type="number" id="chartDepth" value="350" min="100" max="1000">
+            <button id="resizeChart">Resize Chart</button>
+        </div>
+        <br>
+        <div>
+            <label for="xMin">X Min:</label>
+            <input type="number" id="xMin" value="0">
+            <label for="xMax">X Max:</label>
+            <input type="number" id="xMax" value="30"><br>
+            <label for="yMin">Y Min:</label>
+            <input type="number" id="yMin" value="0">
+            <label for="yMax">Y Max:</label>
+            <input type="number" id="yMax" value="30"><br>
+            <label for="zMin">Z Min:</label>
+            <input type="number" id="zMin" value="0">
+            <label for="zMax">Z Max:</label>
+            <input type="number" id="zMax" value="30">
+            <button id="updateAxisRange">Update Axis Range</button>
+        </div>
+        <br>
+        <div>
+            <label for="xAxisUnit">X-Axis Label:</label>
+            <input type="text" id="xAxisUnit" value="X">
+            <label for="yAxisUnit">Y-Axis Label:</label>
+            <input type="text" id="yAxisUnit" value="Y"><br>
+            <label for="zAxisUnit">Z-Axis Label:</label>
+            <input type="text" id="zAxisUnit" value="Z">
+            <button id="updateUnits">Update Labels</button>
+        </div>
+        <br>
+        <div>
+            <label for="colorColumn">Coloring Column:</label>
+            <select id="colorColumn">
+                <option value="z">Z-Axis</option>
+                <option value="e">E Column</option>
+            </select>
+            <button id="updateColoring">Update Coloring</button>
+        </div>
 
-    <div id="colorConfig">
-        <label for="color0">Color 0:</label>
-        <input type="color" id="color0" value="#FF0000"> <!-- Red -->
-        <label for="color1">Color 1:</label>
-        <input type="color" id="color1" value="#00FF00"> <!-- Green -->
-        <label for="color2">Color 2:</label>
-        <input type="color" id="color2" value="#0000FF"> <!-- Blue -->
-        <label for="color3">Color 3:</label>
-        <input type="color" id="color3" value="#FFFF00"> <!-- Yellow -->
-        <label for="color4">Color 4:</label>
-        <input type="color" id="color4" value="#FFA500"> <!-- Orange -->
-        <button id="updateColors">Update Colors</button>
+        <div id="colorConfig">
+            <label for="color0">Color 0:</label>
+            <input type="color" id="color0" value="#FF0000"> <!-- Red -->
+            <label for="color1">Color 1:</label>
+            <input type="color" id="color1" value="#00FF00"> <!-- Green -->
+            <label for="color2">Color 2:</label>
+            <input type="color" id="color2" value="#0000FF"> <!-- Blue -->
+            <label for="color3">Color 3:</label>
+            <input type="color" id="color3" value="#FFFF00"> <!-- Yellow -->
+            <label for="color4">Color 4:</label>
+            <input type="color" id="color4" value="#FFA500"> <!-- Orange -->
+            <button id="updateColors">Update Colors</button>
+        </div>
+        <br>
+        <div>
+            <label for="viewDistance">View Distance:</label>
+            <input type="number" id="viewDistance" value="5" min="1" max="100">
+            <button id="updateViewDistance">Update View Distance</button>
+        </div>
+        <div>
+            <button id="generateLink">Generate Link</button>
+            <p id="linkContainer"></p>
+        </div>
     </div>
-<br>
-    <div>
-        <label for="viewDistance">View Distance:</label>
-        <input type="number" id="viewDistance" value="5" min="1" max="100">
-        <button id="updateViewDistance">Update View Distance</button>
-    </div>
-
-   <div>
-    <button id="generateLink">Generate Link</button>
-    <p id="linkContainer"></p>
-   </div>
- </div> 
-
- <div id="container"></div>
+    
+    <div id="container"></div>
 
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/highcharts-3d.js"></script>
