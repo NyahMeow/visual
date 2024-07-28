@@ -25,6 +25,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 chart = Highcharts.chart('container', chartConfig);
                 controls.classList.add('hidden'); // Hide controls
+
+                // Enable 3D navigation for the chart
+                enable3DNavigation(chart);
             } catch (e) {
                 console.error('Error parsing stored chart configuration:', e);
             }
@@ -297,6 +300,52 @@ function createChart(dataArray) {
     console.log(chart); // チャートオブジェクトの確認
 
     // 3D散布図のマウスイベントを追加
+    (function (H) {
+        function dragStart(eStart) {
+            eStart = chart.pointer.normalize(eStart);
+
+            const posX = eStart.chartX;
+            const posY = eStart.chartY;
+            const alpha = chart.options.chart.options3d.alpha;
+            const beta = chart.options.chart.options3d.beta;
+            const sensitivity = 5;  // lower is more sensitive
+            const handlers = [];
+
+            function drag(e) {
+                // Get e.chartX and e.chartY
+                e = chart.pointer.normalize(e);
+
+                chart.update({
+                    chart: {
+                        options3d: {
+                            alpha: alpha + (e.chartY - posY) / sensitivity,
+                            beta: beta + (posX - e.chartX) / sensitivity
+                        }
+                    }
+                }, undefined, undefined, false);
+            }
+
+            function unbindAll() {
+                handlers.forEach(function (unbind) {
+                    if (unbind) {
+                        unbind();
+                    }
+                });
+                handlers.length = 0;
+            }
+
+            handlers.push(H.addEvent(document, 'mousemove', drag));
+            handlers.push(H.addEvent(document, 'touchmove', drag));
+            handlers.push(H.addEvent(document, 'mouseup', unbindAll));
+            handlers.push(H.addEvent(document, 'touchend', unbindAll));
+        }
+        H.addEvent(chart.container, 'mousedown', dragStart);
+        H.addEvent(chart.container, 'touchstart', dragStart);
+    }(Highcharts));
+}
+
+function enable3DNavigation(chart) {
+    // Enable 3D scatter plot mouse events
     (function (H) {
         function dragStart(eStart) {
             eStart = chart.pointer.normalize(eStart);
