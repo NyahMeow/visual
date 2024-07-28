@@ -38,6 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     const analyzeButton = document.getElementById('analyzeButton');
     const resizeChartButton = document.getElementById('resizeChart');
+    const resizeChartByRatioButton = document.getElementById('resizeChartByRatio');
     const updateAxisRangeButton = document.getElementById('updateAxisRange');
     const updateUnitsButton = document.getElementById('updateUnits');
     const updateViewDistanceButton = document.getElementById('updateViewDistance');
@@ -47,6 +48,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     analyzeButton.addEventListener('click', processFile);
     resizeChartButton.addEventListener('click', resizeChart);
+    resizeChartByRatioButton.addEventListener('click', resizeChartByRatio);
     updateAxisRangeButton.addEventListener('click', updateAxisRange);
     updateUnitsButton.addEventListener('click', updateAxisUnits);
     updateViewDistanceButton.addEventListener('click', updateViewDistance);
@@ -116,6 +118,33 @@ function resizeChart() {
             }
         });
         console.log("Chart resized to width:", width, "height:", height, "depth:", depth);
+    } else {
+        console.error("Chart not found.");
+    }
+}
+
+function resizeChartByRatio() {
+    console.log("Resizing chart by ratio...");
+    const baseSize = parseInt(document.getElementById('baseSize').value, 10);
+    const widthRatio = parseFloat(document.getElementById('widthRatio').value);
+    const heightRatio = parseFloat(document.getElementById('heightRatio').value);
+    const depthRatio = parseFloat(document.getElementById('depthRatio').value);
+
+    const width = Math.round(baseSize * widthRatio);
+    const height = Math.round(baseSize * heightRatio);
+    const depth = Math.round(baseSize * depthRatio);
+
+    if (chart) {
+        chart.update({
+            chart: {
+                width: width,
+                height: height,
+                options3d: {
+                    depth: depth // z軸のサイズを更新
+                }
+            }
+        });
+        console.log("Chart resized by ratio to width:", width, "height:", height, "depth:", depth);
     } else {
         console.error("Chart not found.");
     }
