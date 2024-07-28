@@ -5,12 +5,15 @@ let customColors = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FFA500']; // å
 document.addEventListener('DOMContentLoaded', function() {
     const urlParams = new URLSearchParams(window.location.search);
     const chartConfigKey = urlParams.get('chartConfigKey');
+    const controls = document.getElementById('controls');
     if (chartConfigKey) {
         const storedConfig = localStorage.getItem(chartConfigKey);
         if (storedConfig) {
             try {
                 const chartConfig = JSON.parse(storedConfig);
+                chartConfig.chart.options3d = { enabled: false }; // Disable 3D navigation
                 chart = Highcharts.chart('container', chartConfig);
+                controls.classList.add('hidden'); // Hide controls
             } catch (e) {
                 console.error('Error parsing stored chart configuration:', e);
             }
