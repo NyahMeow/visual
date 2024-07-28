@@ -4,10 +4,11 @@ let customColors = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FFA500']; // å
 
 document.addEventListener('DOMContentLoaded', function() {
     const urlParams = new URLSearchParams(window.location.search);
-    const chartConfigParam = urlParams.get('chartConfig');
-    if (chartConfigParam) {
-        const decodedConfig = JSON.parse(decodeURIComponent(chartConfigParam));
-        chart = Highcharts.chart('container', decodedConfig);
+    const chartConfigKey = urlParams.get('chartConfigKey');
+    if (chartConfigKey) {
+        const chartConfig = JSON.parse(localStorage.getItem(chartConfigKey));
+        if(chartConfig){
+            chart = Highcharts.chart('container', chartConfig);
     }
     
     const analyzeButton = document.getElementById('analyzeButton');
@@ -329,23 +330,23 @@ function generateLink() {
     console.log("Chart Config:", chartConfig); // Debugging log
     const chartConfigStr = JSON.stringify(chartConfig);
     console.log("Chart Config String:", chartConfigStr); // Debugging log
-    const encodedConfig = encodeURIComponent(chartConfigStr);
-    console.log("Encoded Config:", encodedConfig); // Debugging log
+    const chartConfigKey = 'chartConfig_' + Data.now();
+    console.log("chart Config Key:", chartConfigKey); // Debugging log
+    localStorage.setItem(charConfigKey, chartConfigStr);
+
     const link = `${window.location.origin}${window.location.pathname}?chartConfig=${encodedConfig}`;
     console.log("Generated Link:", link); // Debugging log
-    
+   
+    const link = `${window.location.origin}${window.location.pathname}?chartConfigKey=${chartConfigKey}`;
+
     const linkContainer = document.getElementById('linkContainer');
     console.log("Link Container:", linkContainer); // Debugging log
-    if (linkContainer) {
-        linkContainer.innerHTML = `<a href="${link}" target="_blank">Open Chart</a>`;
-    } else {
-        console.error("Element with ID 'linkContainer' not found.");
-    }
+    linkContainer.innerHTML = `<a href="${link}" target="_blank">Open Chart</a>`;
 }
-
-
+    
+/*
 function generateEmbedCode() {
-    if (!chart) {
+     if (!chart) {
         alert("Chart is not initialized.");
         return;
     }
@@ -367,3 +368,4 @@ function generateEmbedCode() {
         console.error("Element with ID 'embedContainer' not found.");
     }
 }
+*/
