@@ -309,7 +309,12 @@ function createChart(dataArray) {
                 dataLabels: {
                     enabled: true,
                     format: '{point.name}',
-                    allowOverlap: true
+                    allowOverlap: true,
+                    style: {
+                        fontSize: '10px',
+                        color: 'black',
+                        textOutline: '1px contrast'
+                    }
                 }
             }
         },
