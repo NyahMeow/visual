@@ -308,7 +308,8 @@ function createChart(dataArray) {
                 depth: 10,
                 dataLabels: {
                     enabled: true,
-                    format: '{point.name}'
+                    format: '{point.name}',
+                    allowOverlap: true
                 }
             }
         },
